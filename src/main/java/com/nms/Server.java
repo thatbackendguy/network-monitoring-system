@@ -1,15 +1,22 @@
 package com.nms;
 
+import com.nms.utils.DatabaseConnection;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.ThreadingModel;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 
 import io.vertx.ext.web.handler.ErrorHandler;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import static com.nms.Main.*;
 import static com.nms.utils.Constants.*;
@@ -91,6 +98,78 @@ public class Server extends AbstractVerticle
             }
 
             ctx.json(new JsonObject().put(STATUS, SUCCESS).put(MESSAGE, "Polling started successfully! No. of devices: " + totalNoDevices));
+        });
+
+        mainRouter.route(HttpMethod.GET,"/get-data/:ip_address").handler(ctx-> {
+            LOGGER.info(REQ_CONTAINER, ctx.request().method(), ctx.request().path(), ctx.request().remoteAddress());
+
+            var response = new JsonObject();
+
+            var contextSwitches = new JsonArray();
+            var freeMemory = new JsonArray();
+            var freeSwapMemory = new JsonArray();
+            var loadAvg = new JsonArray();
+            var idlePercentage = new JsonArray();
+            var systemPercentage = new JsonArray();
+            var userPercentage = new JsonArray();
+            var pollTimestamp = new JsonArray();
+            var totalMemory = new JsonArray();
+            var totalSwapMemory = new JsonArray();
+            var usedMemory = new JsonArray();
+            var usedSwapMemory = new JsonArray();
+
+           var ipAddress = ctx.request().getParam(IP_ADDRESS);
+           vertx.executeBlocking(()->{
+                try(Connection conn = DatabaseConnection.getConnection();)
+                {
+                    String selectQuery = "SELECT * FROM system_metrics WHERE ip_address=?";
+
+                    PreparedStatement stmt = conn.prepareStatement(selectQuery);
+
+                    stmt.setString(1,ipAddress);
+
+                    ResultSet rs = stmt.executeQuery();
+
+                    while(rs.next())
+                    {
+                        contextSwitches.add(rs.getString(CONTEXT_SWITCHES));
+                        freeMemory.add(rs.getString(FREE_MEMORY));
+                        freeSwapMemory.add(rs.getString(FREE_SWAP_MEMORY));
+                        loadAvg.add(rs.getString(LOAD_AVERAGE));
+                        idlePercentage.add(rs.getString(IDLE_CPU_PERCENTAGE));
+                        systemPercentage.add(rs.getString(SYSTEM_CPU_PERCENTAGE));
+                        userPercentage.add(rs.getString(USER_CPU_PERCENTAGE));
+                        pollTimestamp.add(rs.getString(POLL_TIMESTAMP));
+                        totalMemory.add(rs.getString(TOTAL_MEMOEY));
+                        totalSwapMemory.add(rs.getString(TOTAL_SWAP_MEMORY));
+                        usedMemory.add(rs.getString(USED_MEMORY));
+                        usedSwapMemory.add(rs.getString(USED_SWAP_MEMORY));
+                    }
+
+                    response.put(IP_ADDRESS,ipAddress)
+                            .put(CONTEXT_SWITCHES,contextSwitches)
+                            .put(FREE_MEMORY,freeMemory)
+                            .put(FREE_SWAP_MEMORY,freeSwapMemory)
+                            .put(LOAD_AVERAGE,loadAvg)
+                            .put(IDLE_CPU_PERCENTAGE,idlePercentage)
+                            .put(SYSTEM_CPU_PERCENTAGE,systemPercentage)
+                            .put(USERNAME,userPercentage)
+                            .put(POLL_TIMESTAMP,pollTimestamp)
+                            .put(TOTAL_MEMOEY,totalMemory)
+                            .put(TOTAL_SWAP_MEMORY,totalSwapMemory)
+                            .put(USED_MEMORY,usedMemory)
+                            .put(USED_SWAP_MEMORY,usedSwapMemory);
+                }
+                catch(SQLException e)
+                {
+                    LOGGER.error(e.getMessage());
+                }
+
+               return response;
+           }).onComplete(res -> {
+               ctx.json(res.result());
+               LOGGER.info("Response sent successfully!");
+           });
         });
 
         server.requestHandler(mainRouter).listen(8080, res -> {

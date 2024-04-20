@@ -24,8 +24,7 @@ public class Poller extends AbstractVerticle
 
         if(cpuValues.length == 3 && memoryValues.length==3 && swapMemoryValues.length==3)
         {
-            String sql = "INSERT INTO system_metrics (context_switches, free_memory, free_swap, host_ip, load_avg, idle_percent, sys_percent, user_percent, total_memory, total_swap, used_memory, used_swap) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            try(var conn = DatabaseConnection.getConnection(); PreparedStatement stmt =conn.prepareStatement(sql);)
+            String sql = "INSERT INTO system_metrics (context_switches, free_memory, free_swap_memory, ip_address, load_average, idle_cpu_percentage, system_cpu_percentage, user_cpu_percentage, total_memory, total_swap_memory, used_memory, used_swap_memory) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";            try(var conn = DatabaseConnection.getConnection(); PreparedStatement stmt =conn.prepareStatement(sql);)
             {
                 // Set the values for the placeholders
                 stmt.setLong(1, Long.parseLong(output.get(0)));

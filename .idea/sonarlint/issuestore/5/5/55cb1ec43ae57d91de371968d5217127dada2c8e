@@ -1,55 +1,127 @@
 
 
-java:S1104"YMake REQ_CONTAINER a static final constant or non-public and provide accessors if needed.(ΕΛ¬Ώ8ΩΞƒÒο1J$dda14047-46ea-4ad2-bed6-223e8cc854a0
+java:S1104"YMake REQ_CONTAINER a static final constant or non-public and provide accessors if needed.(ΕΛ¬Ώ8°άλαο1J$6c673756-f990-4f10-94b1-1a3fd8e746dc
 •
-java:S1104	"RMake STATUS a static final constant or non-public and provide accessors if needed.(‹λ¤ύ8 ΌÒο1J$22042b06-cf14-463c-8d69-38c2ae195205
+java:S1104	"RMake STATUS a static final constant or non-public and provide accessors if needed.(‹λ¤ύ8±άλαο1J$83ba8bc5-044a-4897-96c4-8fb10dc9184c
 –
-java:S1104"SMake SUCCESS a static final constant or non-public and provide accessors if needed.(ή’χι8 Ό½Òο1J$47b6eacd-6489-4523-a32c-622a23fbec23
+java:S1104"SMake SUCCESS a static final constant or non-public and provide accessors if needed.(ή’χι8±άλαο1J$e9bd7b9f-7f0c-41b0-981c-6ed532c209dc
 ”
-java:S1104"QMake ERROR a static final constant or non-public and provide accessors if needed.(—Ρκ΅8Ϋχ½Òο1J$30bb0394-7e63-475a-bd4c-7b814d2f58dd
+java:S1104"QMake ERROR a static final constant or non-public and provide accessors if needed.(—Ρκ΅8±άλαο1J$4df9f90b-f753-4a11-bf9e-ae076000593d
 –
-java:S1104"SMake MESSAGE a static final constant or non-public and provide accessors if needed.(†Μ8³ΎÒο1J$e26fcb0d-5d3d-4971-bb60-2649a9762fa5
+java:S1104"SMake MESSAGE a static final constant or non-public and provide accessors if needed.(†Μ8±άλαο1J$69b4056d-bafd-4bbb-8cde-c2d205c7821f
 
-java:S1104"VMake IP_ADDRESS a static final constant or non-public and provide accessors if needed.(ΖχΡΫόÿÿÿÿ8„ς¤έο1J$5c79adfc-64a4-48e0-a662-91283e412731
+java:S1104"VMake IP_ADDRESS a static final constant or non-public and provide accessors if needed.(ΖχΡΫόÿÿÿÿ8±άλαο1J$1296872f-d696-4fbb-9eed-338454510617
 –
-java:S1104"TMake PASSWORD a static final constant or non-public and provide accessors if needed.(ΗΉέ08ψ‹¨έο1J$42d79b06-66ac-4bf0-8201-83533687fba5
+java:S1104"TMake PASSWORD a static final constant or non-public and provide accessors if needed.(ΗΉέ08±άλαο1J$98efbb0c-54ff-4851-b37a-2c3a917ffdea
 –
-java:S1104"TMake USERNAME a static final constant or non-public and provide accessors if needed.(ϊΧΊ8ηχ¨έο1J$98b45802-7d1f-42ce-a583-fc9d4427a02a
+java:S1104"TMake USERNAME a static final constant or non-public and provide accessors if needed.(ϊΧΊ8±άλαο1J$676e5b73-1295-4435-a939-28d624696e98
 
-java:S1104"WMake DEVICE_TYPE a static final constant or non-public and provide accessors if needed.(•χτ―8κÿ¬έο1J$01e240b8-e900-4e67-818b-809cfc91a5c9
-v
-java:S1444"3Make this "public static REQ_CONTAINER" field final(ΕΛ¬Ώ8ΌΎÒο1J$4e21ca1f-2d1c-4951-b3a3-e846f7184393
-o
-java:S1444	",Make this "public static STATUS" field final(‹λ¤ύ8 ΌÒο1J$970c2856-299f-435d-afa0-3dd07b2f4384
-p
-java:S1444"-Make this "public static SUCCESS" field final(ή’χι8΅Ό½Òο1J$fef22e7e-ddc5-4e1f-88ba-bf577c54dc9f
-n
-java:S1444"+Make this "public static ERROR" field final(—Ρκ΅8άχ½Òο1J$934cb4b0-35b3-4cf7-9f06-db692072521e
-p
-java:S1444"-Make this "public static MESSAGE" field final(†Μ8 ³ΎÒο1J$665c4969-89e3-4cd1-bdf8-11ff95c97c43
-x
-java:S1444"0Make this "public static IP_ADDRESS" field final(ΖχΡΫόÿÿÿÿ8…ς¤έο1J$4839c55b-2f6b-4a5b-883b-275da891e226
-p
-java:S1444".Make this "public static PASSWORD" field final(ΗΉέ08ω‹¨έο1J$9852ec45-6486-4597-883f-32b3277db006
-p
-java:S1444".Make this "public static USERNAME" field final(ϊΧΊ8θχ¨έο1J$07bd065d-647b-46d6-a795-192cc24a476d
-t
-java:S1444"1Make this "public static DEVICE_TYPE" field final(•χτ―8λÿ¬έο1J$889dd75d-39fe-47e0-8e69-bc2195137620
+java:S1104"WMake DEVICE_TYPE a static final constant or non-public and provide accessors if needed.(•χτ―8±άλαο1J$6d1d9cfd-7d7b-4dea-9e6b-0a46d3865ded
+¤
+java:S1104"\Make CONTEXT_SWITCHES a static final constant or non-public and provide accessors if needed.(£‡Υ±όÿÿÿÿ8±άλαο1J$247faab2-34c6-4f05-a4a5-dbba120ecda6
+
+java:S1104"WMake FREE_MEMORY a static final constant or non-public and provide accessors if needed.(ΖτΎώ8±άλαο1J$4f86db7c-753a-4ec2-a288-85b92a2b3094
+¤
+java:S1104"\Make FREE_SWAP_MEMORY a static final constant or non-public and provide accessors if needed.(ω–ψÿÿÿÿ8±άλαο1J$cfbb63e6-a8bc-4bd5-8f30-9a23f0e1b6ef
 ›
-java:S3008"XRename this field "REQ_CONTAINER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ΕΛ¬Ώ8ΎΎÒο1J$da1dcfe6-426b-4ad3-a472-cef12cce0205
+java:S1104"XMake LOAD_AVERAGE a static final constant or non-public and provide accessors if needed.(ίÒφε8±άλαο1J$0b6fb098-0e0b-486f-b2f9-9e76b72e9c60
+§
+java:S1104!"_Make IDLE_CPU_PERCENTAGE a static final constant or non-public and provide accessors if needed.(³γ£ζÿÿÿÿÿ8±άλαο1J$50f6b029-1b42-4fc8-9f03-9c29af717d8a
+©
+java:S1104#"aMake SYSTEM_CPU_PERCENTAGE a static final constant or non-public and provide accessors if needed.(©Ρσϋÿÿÿÿ8±άλαο1J$c676f800-b9d2-4b22-875b-a529ee5666b6
+§
+java:S1104%"_Make USER_CPU_PERCENTAGE a static final constant or non-public and provide accessors if needed.(έζγψÿÿÿÿ8²άλαο1J$b581ec50-25e0-401e-9a2c-75e8de750640
+Ά
+java:S1104'"ZMake POLL_TIMESTAMP a static final constant or non-public and provide accessors if needed.(κ¬ζώÿÿÿÿ8²άλαο1J$b4d4e677-91eb-4161-a198-de7972201100
+›
+java:S1104)"XMake TOTAL_MEMOEY a static final constant or non-public and provide accessors if needed.(°Ζκ8²άλαο1J$73105918-4305-44d4-9796-8fc1981a568c
+ 
+java:S1104+"]Make TOTAL_SWAP_MEMORY a static final constant or non-public and provide accessors if needed.( ΌÿΫ8²άλαο1J$2fe75d75-deb9-4abb-a858-c17d3546cd56
+
+java:S1104-"WMake USED_MEMORY a static final constant or non-public and provide accessors if needed.(ώΉλΖ8²άλαο1J$8518acb1-4dea-4c9b-8bff-11de6ee10062
+
+java:S1104/"\Make USED_SWAP_MEMORY a static final constant or non-public and provide accessors if needed.(β¤ύ8²άλαο1J$752df007-b7a7-436c-8712-f8a6d06c7414
+v
+java:S1444"3Make this "public static REQ_CONTAINER" field final(ΕΛ¬Ώ8³άλαο1J$c5a91f76-dbb9-4cd8-beab-0727dc50b91d
+o
+java:S1444	",Make this "public static STATUS" field final(‹λ¤ύ8³άλαο1J$b1626320-03d5-4cd0-aa8d-05df06604b58
+p
+java:S1444"-Make this "public static SUCCESS" field final(ή’χι8³άλαο1J$c416ffc2-2cd3-4817-8bd7-8fe6e4a0dcbc
+n
+java:S1444"+Make this "public static ERROR" field final(—Ρκ΅8³άλαο1J$8db815d2-4e4e-4312-9623-de535f5bdcc0
+p
+java:S1444"-Make this "public static MESSAGE" field final(†Μ8³άλαο1J$9627b48d-910a-46ec-9554-665758f46a5a
+x
+java:S1444"0Make this "public static IP_ADDRESS" field final(ΖχΡΫόÿÿÿÿ8³άλαο1J$f6beef6d-5721-4fc4-84cc-937328ffbc5f
+p
+java:S1444".Make this "public static PASSWORD" field final(ΗΉέ08³άλαο1J$123bbbf3-f275-404e-a724-caf2764fc5db
+p
+java:S1444".Make this "public static USERNAME" field final(ϊΧΊ8³άλαο1J$5146304d-d72d-4c2f-bce6-ec4da7e04395
+t
+java:S1444"1Make this "public static DEVICE_TYPE" field final(•χτ―8³άλαο1J$e78ab896-575e-406d-a373-1aab0c9cf778
+~
+java:S1444"6Make this "public static CONTEXT_SWITCHES" field final(£‡Υ±όÿÿÿÿ8³άλαο1J$4080ecec-c305-479d-9fb2-2fcbc4aa529a
+t
+java:S1444"1Make this "public static FREE_MEMORY" field final(ΖτΎώ8³άλαο1J$c0a91ac4-08fe-404f-93ff-cc4d3dbfc9a1
+~
+java:S1444"6Make this "public static FREE_SWAP_MEMORY" field final(ω–ψÿÿÿÿ8³άλαο1J$6ee8d2f6-a3e4-4836-b1da-c89fb3a68d8f
+u
+java:S1444"2Make this "public static LOAD_AVERAGE" field final(ίÒφε8΄άλαο1J$d779010d-a214-4865-a85f-718e1ae8bcae
+
+java:S1444!"9Make this "public static IDLE_CPU_PERCENTAGE" field final(³γ£ζÿÿÿÿÿ8΄άλαο1J$ccd47886-f04d-42ea-bbe2-2ce4a3603386
+ƒ
+java:S1444#";Make this "public static SYSTEM_CPU_PERCENTAGE" field final(©Ρσϋÿÿÿÿ8΄άλαο1J$4f4dcc10-ef40-466e-9d15-64a288faf283
+
+java:S1444%"9Make this "public static USER_CPU_PERCENTAGE" field final(έζγψÿÿÿÿ8΄άλαο1J$2112dc63-57e1-48f0-9fe1-839c3e5ce8ba
+|
+java:S1444'"4Make this "public static POLL_TIMESTAMP" field final(κ¬ζώÿÿÿÿ8΄άλαο1J$8b2d22fa-fe4e-4351-bc43-16d8bb640c58
+u
+java:S1444)"2Make this "public static TOTAL_MEMOEY" field final(°Ζκ8΄άλαο1J$9024cf2c-2e40-4096-801e-7c92067fdbdb
+z
+java:S1444+"7Make this "public static TOTAL_SWAP_MEMORY" field final( ΌÿΫ8΄άλαο1J$688e65d1-4042-492f-b212-c0d14f299a5a
+t
+java:S1444-"1Make this "public static USED_MEMORY" field final(ώΉλΖ8΄άλαο1J$0c8edcb4-3e66-4ca7-98c1-e2416ee64858
+y
+java:S1444/"6Make this "public static USED_SWAP_MEMORY" field final(β¤ύ8΄άλαο1J$cf391fdd-a2d2-41ab-9a02-5a3fc2d712c3
+›
+java:S3008"XRename this field "REQ_CONTAINER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ΕΛ¬Ώ8·άλαο1J$392a4728-f80e-48f4-a907-593fbdc1e433
 ”
-java:S3008	"QRename this field "STATUS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹λ¤ύ8 ΌÒο1J$87548933-8ca8-4235-80e9-a78e3cb33a95
+java:S3008	"QRename this field "STATUS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹λ¤ύ8·άλαο1J$d16f18c2-9bf4-408d-b4b3-770aff6fbddd
 •
-java:S3008"RRename this field "SUCCESS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ή’χι8£Ό½Òο1J$87902e36-beee-4fb7-a0a7-f4e01665e562
+java:S3008"RRename this field "SUCCESS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ή’χι8·άλαο1J$bd09d3ba-7766-4f27-909b-9e9e6b31f60e
 “
-java:S3008"PRename this field "ERROR" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—Ρκ΅8ήχ½Òο1J$4459588f-5fc9-4e33-9f91-814f84dcc3b2
+java:S3008"PRename this field "ERROR" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—Ρκ΅8·άλαο1J$ab00b147-880c-40da-ac10-89de4e785d28
 •
-java:S3008"RRename this field "MESSAGE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†Μ8£³ΎÒο1J$99e7cc7f-9ca4-4758-bf21-2c67b3e458ad
+java:S3008"RRename this field "MESSAGE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†Μ8·άλαο1J$2285b27c-4678-41a7-a757-ba11cb4c411a
 
-java:S3008"URename this field "IP_ADDRESS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ΖχΡΫόÿÿÿÿ8‡ς¤έο1J$16c9c97a-aa11-4a89-8c2a-461ed60b627e
+java:S3008"URename this field "IP_ADDRESS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ΖχΡΫόÿÿÿÿ8·άλαο1J$02750100-e9d5-4dea-b2d2-cde3f295c9b8
 •
-java:S3008"SRename this field "PASSWORD" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ΗΉέ08ϋ‹¨έο1J$20bcf546-3d1f-4d49-8366-a4dc40e61c73
+java:S3008"SRename this field "PASSWORD" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ΗΉέ08·άλαο1J$24432d58-54bc-42d1-a062-34750c62fce2
 •
-java:S3008"SRename this field "USERNAME" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ϊΧΊ8κχ¨έο1J$fff663c5-f4ad-4ce3-9c43-37f49eda8785
+java:S3008"SRename this field "USERNAME" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ϊΧΊ8·άλαο1J$db8fffbe-10a4-42c9-9afd-c8078b789bc1
 ™
-java:S3008"VRename this field "DEVICE_TYPE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•χτ―8νÿ¬έο1J$f9aa71ec-599a-415b-900e-4c981f97e998
+java:S3008"VRename this field "DEVICE_TYPE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•χτ―8Έάλαο1J$30ee4dee-2758-434a-a00b-178db6dd4c9a
+£
+java:S3008"[Rename this field "CONTEXT_SWITCHES" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£‡Υ±όÿÿÿÿ8Έάλαο1J$7d003b62-7a52-4b5a-a567-2e1a51186c80
+™
+java:S3008"VRename this field "FREE_MEMORY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ΖτΎώ8Έάλαο1J$9c2b4288-2ed9-460c-99dc-810eb0254058
+£
+java:S3008"[Rename this field "FREE_SWAP_MEMORY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ω–ψÿÿÿÿ8Έάλαο1J$6d1c090d-7135-4798-a3d8-df6cb513ccc8
+
+java:S3008"WRename this field "LOAD_AVERAGE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ίÒφε8Έάλαο1J$5b7670fb-df22-4547-81d3-d71f38e694a9
+¦
+java:S3008!"^Rename this field "IDLE_CPU_PERCENTAGE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³γ£ζÿÿÿÿÿ8Έάλαο1J$5cde6f55-d9c8-4f8f-8ac2-ee5f1f5785ae
+¨
+java:S3008#"`Rename this field "SYSTEM_CPU_PERCENTAGE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(©Ρσϋÿÿÿÿ8Έάλαο1J$0e426242-85d2-4a49-8cc1-930cc8c94a41
+¦
+java:S3008%"^Rename this field "USER_CPU_PERCENTAGE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(έζγψÿÿÿÿ8Έάλαο1J$39a5446e-26af-4b0e-879d-f4d641f9f0ab
+΅
+java:S3008'"YRename this field "POLL_TIMESTAMP" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(κ¬ζώÿÿÿÿ8Έάλαο1J$a2924eb5-240b-4c41-8eb1-b11246742154
+
+java:S3008)"WRename this field "TOTAL_MEMOEY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(°Ζκ8Ήάλαο1J$664ba3a7-7564-48e8-8f74-c01f75bbb115
+
+java:S3008+"\Rename this field "TOTAL_SWAP_MEMORY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.( ΌÿΫ8Ήάλαο1J$500b3c92-5f22-4316-9331-00c6ef4fd297
+™
+java:S3008-"VRename this field "USED_MEMORY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ώΉλΖ8Ήάλαο1J$f09dcfdb-04b2-4a63-952f-8514d606a18a
+
+java:S3008/"[Rename this field "USED_SWAP_MEMORY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(β¤ύ8Ήάλαο1J$d43d5d64-a03c-46b9-8bd6-3cb37fcaa3de
