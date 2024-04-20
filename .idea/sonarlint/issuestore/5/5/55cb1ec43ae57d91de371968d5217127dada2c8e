@@ -1,7 +1,55 @@
 
 œ
-java:S1104"YMake REQ_CONTAINER a static final constant or non-public and provide accessors if needed.(ÅË¬¿8ÙÎƒÒï1J$b190a2ef-0931-4a5c-b4e4-d4966209ae29
-P
-java:S1444"3Make this "public static REQ_CONTAINER" field final(ÅË¬¿8¼¾ˆÒï1
-u
-java:S3008"XRename this field "REQ_CONTAINER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÅË¬¿8¾¾ˆÒï1
+java:S1104"YMake REQ_CONTAINER a static final constant or non-public and provide accessors if needed.(ÅË¬¿8ÙÎƒÒï1J$dda14047-46ea-4ad2-bed6-223e8cc854a0
+•
+java:S1104	"RMake STATUS a static final constant or non-public and provide accessors if needed.(‹ë¤ı8 ¼Òï1J$22042b06-cf14-463c-8d69-38c2ae195205
+–
+java:S1104"SMake SUCCESS a static final constant or non-public and provide accessors if needed.(Ş’÷é8 ¼½Òï1J$47b6eacd-6489-4523-a32c-622a23fbec23
+”
+java:S1104"QMake ERROR a static final constant or non-public and provide accessors if needed.(—Ñê¡8Û÷½Òï1J$30bb0394-7e63-475a-bd4c-7b814d2f58dd
+–
+java:S1104"SMake MESSAGE a static final constant or non-public and provide accessors if needed.(†Ì8Ÿ³¾Òï1J$e26fcb0d-5d3d-4971-bb60-2649a9762fa5
+
+java:S1104"VMake IP_ADDRESS a static final constant or non-public and provide accessors if needed.(Æ÷ÑÛüÿÿÿÿ8„ò¤İï1J$5c79adfc-64a4-48e0-a662-91283e412731
+–
+java:S1104"TMake PASSWORD a static final constant or non-public and provide accessors if needed.(Ç¹İ08ø‹¨İï1J$42d79b06-66ac-4bf0-8201-83533687fba5
+–
+java:S1104"TMake USERNAME a static final constant or non-public and provide accessors if needed.(ú×º8ç÷¨İï1J$98b45802-7d1f-42ce-a583-fc9d4427a02a
+š
+java:S1104"WMake DEVICE_TYPE a static final constant or non-public and provide accessors if needed.(•÷ô¯8êÿ¬İï1J$01e240b8-e900-4e67-818b-809cfc91a5c9
+v
+java:S1444"3Make this "public static REQ_CONTAINER" field final(ÅË¬¿8¼¾ˆÒï1J$4e21ca1f-2d1c-4951-b3a3-e846f7184393
+o
+java:S1444	",Make this "public static STATUS" field final(‹ë¤ı8 ¼Òï1J$970c2856-299f-435d-afa0-3dd07b2f4384
+p
+java:S1444"-Make this "public static SUCCESS" field final(Ş’÷é8¡¼½Òï1J$fef22e7e-ddc5-4e1f-88ba-bf577c54dc9f
+n
+java:S1444"+Make this "public static ERROR" field final(—Ñê¡8Ü÷½Òï1J$934cb4b0-35b3-4cf7-9f06-db692072521e
+p
+java:S1444"-Make this "public static MESSAGE" field final(†Ì8 ³¾Òï1J$665c4969-89e3-4cd1-bdf8-11ff95c97c43
+x
+java:S1444"0Make this "public static IP_ADDRESS" field final(Æ÷ÑÛüÿÿÿÿ8…ò¤İï1J$4839c55b-2f6b-4a5b-883b-275da891e226
+p
+java:S1444".Make this "public static PASSWORD" field final(Ç¹İ08ù‹¨İï1J$9852ec45-6486-4597-883f-32b3277db006
+p
+java:S1444".Make this "public static USERNAME" field final(ú×º8è÷¨İï1J$07bd065d-647b-46d6-a795-192cc24a476d
+t
+java:S1444"1Make this "public static DEVICE_TYPE" field final(•÷ô¯8ëÿ¬İï1J$889dd75d-39fe-47e0-8e69-bc2195137620
+›
+java:S3008"XRename this field "REQ_CONTAINER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÅË¬¿8¾¾ˆÒï1J$da1dcfe6-426b-4ad3-a472-cef12cce0205
+”
+java:S3008	"QRename this field "STATUS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹ë¤ı8 ¼Òï1J$87548933-8ca8-4235-80e9-a78e3cb33a95
+•
+java:S3008"RRename this field "SUCCESS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ş’÷é8£¼½Òï1J$87902e36-beee-4fb7-a0a7-f4e01665e562
+“
+java:S3008"PRename this field "ERROR" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—Ñê¡8Ş÷½Òï1J$4459588f-5fc9-4e33-9f91-814f84dcc3b2
+•
+java:S3008"RRename this field "MESSAGE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†Ì8£³¾Òï1J$99e7cc7f-9ca4-4758-bf21-2c67b3e458ad
+
+java:S3008"URename this field "IP_ADDRESS" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Æ÷ÑÛüÿÿÿÿ8‡ò¤İï1J$16c9c97a-aa11-4a89-8c2a-461ed60b627e
+•
+java:S3008"SRename this field "PASSWORD" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç¹İ08û‹¨İï1J$20bcf546-3d1f-4d49-8366-a4dc40e61c73
+•
+java:S3008"SRename this field "USERNAME" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ú×º8ê÷¨İï1J$fff663c5-f4ad-4ce3-9c43-37f49eda8785
+™
+java:S3008"VRename this field "DEVICE_TYPE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•÷ô¯8íÿ¬İï1J$f9aa71ec-599a-415b-900e-4c981f97e998
