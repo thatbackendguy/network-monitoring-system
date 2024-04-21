@@ -24,7 +24,8 @@ public class Poller extends AbstractVerticle
 
         if(cpuValues.length == 3 && memoryValues.length==3 && swapMemoryValues.length==3)
         {
-            String sql = "INSERT INTO system_metrics (context_switches, free_memory, free_swap_memory, ip_address, load_average, idle_cpu_percentage, system_cpu_percentage, user_cpu_percentage, total_memory, total_swap_memory, used_memory, used_swap_memory) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";            try(var conn = DatabaseConnection.getConnection(); PreparedStatement stmt =conn.prepareStatement(sql);)
+            String sql = "INSERT INTO system_metrics (context_switches, free_memory, free_swap_memory, ip_address, load_average, idle_cpu_percentage, system_cpu_percentage, user_cpu_percentage, total_memory, total_swap_memory, used_memory, used_swap_memory) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            try(var conn = DatabaseConnection.getConnection(); PreparedStatement stmt =conn.prepareStatement(sql);)
             {
                 // Set the values for the placeholders
                 stmt.setLong(1, Long.parseLong(output.get(0)));
@@ -59,7 +60,7 @@ public class Poller extends AbstractVerticle
 
             LOGGER.info("Polling for {}",config().getString(IP_ADDRESS));
 
-            var command = " vmstat -s | grep 'context' | awk {'print $1'} ; mpstat | tail -1 | awk {'print $5,$7,$14'}; uptime | awk {'print $10'}; free -m | awk {'print $2,$3,$4'} | tail -2";
+            var command = " vmstat -s | grep 'context' | awk {'print $1'} ; mpstat | tail -1 | awk {'print $5,$7,$14'}; uptime | awk {'print $NF'}; free -m | awk {'print $2,$3,$4'} | tail -2";
 
             var polledBuffer = new ArrayList<String>(); // store result of terminal output
 
