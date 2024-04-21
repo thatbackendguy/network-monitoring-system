@@ -11,6 +11,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 
+import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.ErrorHandler;
 
 import java.sql.Connection;
@@ -31,10 +32,14 @@ public class Server extends AbstractVerticle
     @Override
     public void start() throws Exception
     {
-
         HttpServer server = vertx.createHttpServer();
 
         Router mainRouter = Router.router(vertx);
+
+        mainRouter.route().handler(CorsHandler.create()
+                        .addOrigin("*")
+                .allowedMethod(HttpMethod.GET)
+                .allowedMethod(HttpMethod.POST));
 
         // for handling failures
         mainRouter.route().failureHandler(errorHandler());
@@ -153,7 +158,7 @@ public class Server extends AbstractVerticle
                             .put(LOAD_AVERAGE,loadAvg)
                             .put(IDLE_CPU_PERCENTAGE,idlePercentage)
                             .put(SYSTEM_CPU_PERCENTAGE,systemPercentage)
-                            .put(USERNAME,userPercentage)
+                            .put(USER_CPU_PERCENTAGE,userPercentage)
                             .put(POLL_TIMESTAMP,pollTimestamp)
                             .put(TOTAL_MEMOEY,totalMemory)
                             .put(TOTAL_SWAP_MEMORY,totalSwapMemory)
@@ -170,6 +175,41 @@ public class Server extends AbstractVerticle
                ctx.json(res.result());
                LOGGER.info("Response sent successfully!");
            });
+        });
+
+        mainRouter.route(HttpMethod.GET,"/get-ip-address").handler(ctx-> {
+            LOGGER.info(REQ_CONTAINER, ctx.request().method(), ctx.request().path(), ctx.request().remoteAddress());
+
+            var response = new JsonObject();
+
+            var ipAddresses = new JsonArray();
+
+            vertx.executeBlocking(()->{
+                try(Connection conn = DatabaseConnection.getConnection();)
+                {
+                    String selectQuery = "SELECT distinct(ip_address) FROM system_metrics";
+
+                    PreparedStatement stmt = conn.prepareStatement(selectQuery);
+
+                    ResultSet rs = stmt.executeQuery();
+
+                    while(rs.next())
+                    {
+                        ipAddresses.add(rs.getString(IP_ADDRESS));
+                    }
+
+                    response.put(IP_ADDRESS,ipAddresses);
+                }
+                catch(SQLException e)
+                {
+                    LOGGER.error(e.getMessage());
+                }
+
+                return response;
+            }).onComplete(res -> {
+                ctx.json(res.result());
+                LOGGER.info("Response sent successfully!");
+            });
         });
 
         server.requestHandler(mainRouter).listen(8080, res -> {
