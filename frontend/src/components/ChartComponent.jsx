@@ -2,8 +2,8 @@ import Chart from "react-apexcharts";
 
 export const ChartComponent = ({chartData,title}) => {
   return (
-    <div className="chart-container p-4 rounded-2xl bg-[#272637]">
-    <h2 className="text-white px-4 py-8 text-xl md:text-2xl lg:text-3xl font-bold">{title}</h2>
+    <div className="chart-container p-4 rounded-[2rem] bg-[#272637]">
+    <h2 className="text-white px-4 py-8 text-xl md:text-2xl lg:text-3xl font-semibold">{title}</h2>
     <Chart
       options={{
         ...chartData.options,

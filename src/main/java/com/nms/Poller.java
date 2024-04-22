@@ -56,7 +56,7 @@ public class Poller extends AbstractVerticle
     @Override
     public void start() throws Exception
     {
-        vertx.setPeriodic(10000, v -> {
+        vertx.setPeriodic(10000, timerID -> {
 
             LOGGER.info("Polling for {}",config().getString(IP_ADDRESS));
 
@@ -77,9 +77,19 @@ public class Poller extends AbstractVerticle
 
                 String line;
 
-                while((line = reader.readLine()) != null && !line.contains("refused"))
+                while((line = reader.readLine()) != null)
                 {
-                    polledBuffer.add(line);
+                    LOGGER.debug(line);
+                    if(!line.contains("refused"))
+                    {
+                        polledBuffer.add(line);
+                    }
+                    else
+                    {
+                        LOGGER.info("Device down! Undeploy poller: {}", context.deploymentID());
+                        vertx.cancelTimer(timerID);
+                        vertx.undeploy(context.deploymentID());
+                    }
                 }
 
                 int exitCode = process.waitFor();
@@ -91,7 +101,7 @@ public class Poller extends AbstractVerticle
                 else
                 {
                     LOGGER.info("Device down! Undeploy poller: {}", context.deploymentID());
-
+                    vertx.cancelTimer(timerID);
                     vertx.undeploy(context.deploymentID());
                 }
 
