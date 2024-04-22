@@ -1,13 +1,13 @@
 
 •
-java:S1104"RMake LOGGER a static final constant or non-public and provide accessors if needed.(ü­Ğù8”ıËÛï1J$72f23d5e-5d4c-43d9-b96a-31f8f2284847
+java:S1104"RMake LOGGER a static final constant or non-public and provide accessors if needed.(ü­Ğù8”ıËÛï1J$372173c7-28e0-4116-9946-ce2238fc2094
 ¥
-java:S1104"bMake PROVISION_DEVICES_LIST a static final constant or non-public and provide accessors if needed.(ëÊÒù8”ıËÛï1J$e2e060b8-485f-44ae-bdf0-e3547e43a385
+java:S1104"bMake PROVISION_DEVICES_LIST a static final constant or non-public and provide accessors if needed.(ëÊÒù8”ıËÛï1J$9af66bc3-4d31-4d56-88b4-c100114b68d2
 o
-java:S1444",Make this "public static LOGGER" field final(ü­Ğù8•ıËÛï1J$44a67cf6-e4a9-4bd0-a6f9-9c4a9cf3c46f
+java:S1444",Make this "public static LOGGER" field final(ü­Ğù8•ıËÛï1J$6059466b-bb69-4031-b33c-077a54f0473a
 
-java:S1444"<Make this "public static PROVISION_DEVICES_LIST" field final(ëÊÒù8•ıËÛï1J$1f6dab8e-d2e2-4e7a-a412-162196b7c8de
+java:S1444"<Make this "public static PROVISION_DEVICES_LIST" field final(ëÊÒù8•ıËÛï1J$906fe671-a039-4fd1-916c-d06cf56bdc62
 ”
-java:S3008"QRename this field "LOGGER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ü­Ğù8—ıËÛï1J$a22a9430-6a29-407d-9968-86f3ce8eedf1
+java:S3008"QRename this field "LOGGER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ü­Ğù8—ıËÛï1J$9de93652-e0a5-429b-a941-372e4815f741
 ¤
-java:S3008"aRename this field "PROVISION_DEVICES_LIST" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÊÒù8—ıËÛï1J$64bcbf82-0eb7-4291-98cc-4cffa635aa27
+java:S3008"aRename this field "PROVISION_DEVICES_LIST" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëÊÒù8—ıËÛï1J$4e9d24de-230a-4f0f-bae2-d17a39604b1f

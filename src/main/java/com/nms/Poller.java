@@ -79,16 +79,16 @@ public class Poller extends AbstractVerticle
 
                 while((line = reader.readLine()) != null)
                 {
-                    LOGGER.debug(line);
                     if(!line.contains("refused"))
                     {
                         polledBuffer.add(line);
                     }
                     else
                     {
-                        LOGGER.info("Device down! Undeploy poller: {}", context.deploymentID());
                         vertx.cancelTimer(timerID);
+
                         vertx.undeploy(context.deploymentID());
+                        LOGGER.info("Device down! Undeploy poller: {}", timerID);
                     }
                 }
 
@@ -100,9 +100,9 @@ public class Poller extends AbstractVerticle
                 }
                 else
                 {
-                    LOGGER.info("Device down! Undeploy poller: {}", context.deploymentID());
                     vertx.cancelTimer(timerID);
                     vertx.undeploy(context.deploymentID());
+                    LOGGER.info("Device down! Undeploy poller: {}", timerID);
                 }
 
 

@@ -94,7 +94,7 @@ public class Server extends AbstractVerticle
             {
                 JsonObject deviceJson = (JsonObject) device;
 
-                vertx.deployVerticle("com.nms.Poller", new DeploymentOptions().setConfig(deviceJson).setThreadingModel(ThreadingModel.WORKER).setWorkerPoolName(deviceJson.getString(IP_ADDRESS)), handler -> {
+                vertx.deployVerticle("com.nms.Poller", new DeploymentOptions().setConfig(deviceJson).setThreadingModel(ThreadingModel.WORKER).setWorkerPoolSize(1).setInstances(1).setWorkerPoolName(deviceJson.getString(IP_ADDRESS)), handler -> {
                     if(handler.succeeded())
                     {
                         LOGGER.info("Polling started: {}",deviceJson.getString(IP_ADDRESS));

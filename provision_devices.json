@@ -4,5 +4,29 @@
     "password": "2303",
     "ip_address": "10.20.40.128",
     "device_type": "linux"
+  },
+  {
+    "username": "shivam",
+    "password": "9898",
+    "ip_address": "10.20.40.239",
+    "device_type": "linux"
+  },
+  {
+    "username": "yash",
+    "password": "1010",
+    "ip_address": "10.20.40.227",
+    "device_type": "linux"
+  }
+  ,{
+  "username": "vaibhav",
+  "password": "Hardi@1311",
+  "ip_address": "10.20.40.229",
+  "device_type": "linux"
+},
+  {
+    "username": "raj",
+    "password": "Mind@123",
+    "ip_address": "10.20.40.197",
+    "device_type": "linux"
   }
 ]
