@@ -6,17 +6,24 @@ export const ChartComponent = ({chartData,title}) => {
     <h2 className="text-white px-4 py-8 text-xl md:text-2xl lg:text-3xl font-semibold">{title}</h2>
     <Chart
       options={{
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'smooth'
+        },
         ...chartData.options,
         chart: {
           ...chartData.options.chart,
-          background: '#272637', // Set background color of chart
+          background: '#272637',
         },
         xaxis: {
+          type: 'datetime',
           ...chartData.options.xaxis,
           labels: {
             ...chartData.options.xaxis.labels,
             style: {
-              colors: '#ffffff', // Set x-axis label text color to white
+              colors: '#ffffff',
             },
           },
         },
@@ -25,7 +32,7 @@ export const ChartComponent = ({chartData,title}) => {
           labels: {
             ...chartData.options?.yaxis?.labels,
             style: {
-              colors: '#ffffff', // Set y-axis label text color to white
+              colors: '#ffffff',
             },
           },
         },
@@ -33,11 +40,14 @@ export const ChartComponent = ({chartData,title}) => {
           ...chartData.options?.legend,
           labels: {
             colors: '#ffffff', // Set legend text color to white
+            style: {
+              fontSize:'1rem'
+            }
           },
         },
       }}
       series={chartData.series}
-      type="line"
+      type="area"
     />
   </div>
   )

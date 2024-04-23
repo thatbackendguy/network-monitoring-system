@@ -8,17 +8,20 @@ USE nmsDB;
 # SYSTEM_METRICS
 CREATE TABLE `system_metrics`
 (
-    `context_switches`      bigint                DEFAULT NULL,
-    `free_memory`           bigint                DEFAULT NULL,
-    `free_swap_memory`      bigint                DEFAULT NULL,
+    `context_switches`      varchar(255)          DEFAULT NULL,
+    `free_memory`           varchar(255)          DEFAULT NULL,
+    `free_swap_memory`      varchar(255)          DEFAULT NULL,
     `ip_address`            varchar(255) NOT NULL,
-    `load_average`          float                 DEFAULT NULL,
-    `idle_cpu_percentage`   float                 DEFAULT NULL,
-    `system_cpu_percentage` float                 DEFAULT NULL,
-    `user_cpu_percentage`   float                 DEFAULT NULL,
+    `load_average`          varchar(255)          DEFAULT NULL,
+    `idle_cpu_percentage`   varchar(255)          DEFAULT NULL,
+    `system_cpu_percentage` varchar(255)          DEFAULT NULL,
+    `user_cpu_percentage`   varchar(255)          DEFAULT NULL,
     `poll_timestamp`        timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `total_memory`          bigint                DEFAULT NULL,
-    `total_swap_memory`     bigint                DEFAULT NULL,
-    `used_memory`           bigint                DEFAULT NULL,
-    `used_swap_memory`      bigint                DEFAULT NULL
-);
+    `total_memory`          varchar(255)          DEFAULT NULL,
+    `total_swap_memory`     varchar(255)          DEFAULT NULL,
+    `used_memory`           varchar(255)          DEFAULT NULL,
+    `used_swap_memory`      varchar(255)          DEFAULT NULL
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
+

@@ -4,8 +4,9 @@ import { TbDeviceImacPlus } from "react-icons/tb";
 import axios from "axios";
 import "./App.css";
 import { toast, Toaster } from "react-hot-toast";
-import { Select, Modal, Input, Tooltip } from "antd";
+import { Select, Modal, Input, Tooltip, Badge } from "antd";
 import { ChartComponent } from "./components/ChartComponent.jsx";
+import { FaBell } from "react-icons/fa";
 
 function App() {
   const [data, setData] = useState();
@@ -213,21 +214,45 @@ function App() {
   return (
     <div className="app">
       <Toaster />
+
+      <div className="z-10 fixed bottom-6 right-6">
+        <div>
+          <Badge
+            count={7}
+            className="mb-[-40px]"
+          />
+        </div>
+
+        <div className="py-4 hover:cursor-pointer px-4 rounded-full bg-white text-red-500 hover:text-red-600">
+          <FaBell className="text-2xl" />
+        </div>
+      </div>
+
       <div className="sm:flex md:flex lg:flex w-full px-12 items-center justify-between py-8 fixed bg-[#1f1d2c] z-[1000]">
-        <h1 className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl text-center font-bold">
-          Network Monitoring System
-        </h1>
+        <div className="flex items-center gap-4">
+          <img src="/src/assets/monitoring.png" alt="Logo" width={64} />
+          <h1 className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl text-center font-bold">
+            Network Monitoring System
+          </h1>
+        </div>
         <div className="flex text-center md:text-center gap-4">
-          <div>
-            <p className="text-white pb-2 text-sm">Select IP Address</p>
-            <Select
-              defaultValue="127.0.0.1"
-              style={{
-                width: 150,
-              }}
-              onChange={handleChange}
-              options={selectOptions}
+          <div className="flex items-center gap-4">
+            <Badge
+              className="mt-6 hover:cursor-not-allowed"
+              count={ipAddress ? ipAddress.length : 0}
+              style={{ backgroundColor: "#52c41a" }}
             />
+            <div>
+              <p className="text-white pb-2 text-sm">Select IP Address</p>
+              <Select
+                defaultValue="127.0.0.1"
+                style={{
+                  width: 150,
+                }}
+                onChange={handleChange}
+                options={selectOptions}
+              />
+            </div>
           </div>
 
           <div className="gap-4 flex">
@@ -259,13 +284,15 @@ function App() {
       <br />
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-32 p-12 ">
         <ChartComponent title={"CPU Stats"} chartData={cpuStatsChartData} />
-        <ChartComponent
-          title={"Context Switches Stats"}
-          chartData={contextSwitchesChartData}
-        />
+
         <ChartComponent
           title={"Memory Stats"}
           chartData={memoryStatsChartData}
+        />
+
+        <ChartComponent
+          title={"Context Switches Stats"}
+          chartData={contextSwitchesChartData}
         />
 
         <ChartComponent
