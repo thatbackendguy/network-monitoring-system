@@ -7,9 +7,9 @@ import io.vertx.core.json.JsonArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Main
+public class Bootstrap
 {
-    public static Logger LOGGER = LoggerFactory.getLogger(Main.class);
+    public static Logger LOGGER = LoggerFactory.getLogger(Bootstrap.class);
 
     public static JsonArray PROVISION_DEVICES_LIST = new JsonArray();
 

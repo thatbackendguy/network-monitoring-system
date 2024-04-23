@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import static com.nms.Main.LOGGER;
+import static com.nms.Bootstrap.LOGGER;
 
 public class DatabaseConnection
 {

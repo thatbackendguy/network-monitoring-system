@@ -19,8 +19,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
-import static com.nms.Main.*;
+import static com.nms.Bootstrap.*;
 import static com.nms.utils.Constants.*;
 
 public class Server extends AbstractVerticle
@@ -41,6 +43,7 @@ public class Server extends AbstractVerticle
         if(cpuValues.length == 3 && memoryValues.length == 3 && swapMemoryValues.length == 3)
         {
             String sql = "INSERT INTO system_metrics (context_switches, free_memory, free_swap_memory, ip_address, load_average, idle_cpu_percentage, system_cpu_percentage, user_cpu_percentage, total_memory, total_swap_memory, used_memory, used_swap_memory) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
             try(var conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);)
             {
                 // Set the values for the placeholders
@@ -67,6 +70,7 @@ public class Server extends AbstractVerticle
             }
         }
     }
+
 
     @Override
     public void start() throws Exception
@@ -116,17 +120,18 @@ public class Server extends AbstractVerticle
             });
         });
 
+        // GET: /start-polling
         mainRouter.route(HttpMethod.GET, "/start-polling").handler(ctx -> {
             LOGGER.info(REQ_CONTAINER, ctx.request().method(), ctx.request().path(), ctx.request().remoteAddress());
 
             int totalNoDevices = PROVISION_DEVICES_LIST.size();
-
 
             for(Object device : PROVISION_DEVICES_LIST)
             {
                 JsonObject deviceJson = (JsonObject) device;
 
                 vertx.setPeriodic(10000, timerID -> {
+
                     vertx.executeBlocking(f -> {
                         LOGGER.info("Polling for {}", deviceJson.getString(IP_ADDRESS));
 
@@ -137,13 +142,13 @@ public class Server extends AbstractVerticle
                         try
                         {
 
-                            ProcessBuilder processBuilder = new ProcessBuilder("sshpass", "-p", deviceJson.getString(PASSWORD), "ssh", "-o", "StrictHostKeyChecking=no", deviceJson.getString(USERNAME) + "@" + deviceJson.getString(IP_ADDRESS), command);
+                            var processBuilder = new ProcessBuilder("sshpass", "-p", deviceJson.getString(PASSWORD), "ssh", "-o", "StrictHostKeyChecking=no", deviceJson.getString(USERNAME) + "@" + deviceJson.getString(IP_ADDRESS), command);
 
                             processBuilder.redirectErrorStream(true);
 
-                            Process process = processBuilder.start();
+                            var process = processBuilder.start();
 
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                            var reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
                             String line;
 
@@ -159,7 +164,7 @@ public class Server extends AbstractVerticle
                                 }
                             }
 
-                            int exitCode = process.waitFor();
+                            var exitCode = process.waitFor();
 
                             if(!polledBuffer.isEmpty() && exitCode == 0)
                             {
@@ -181,10 +186,12 @@ public class Server extends AbstractVerticle
 
             }
 
+
             ctx.json(new JsonObject().put(STATUS, SUCCESS).put(MESSAGE, "Polling started successfully! No. of devices: " + totalNoDevices));
 
         });
 
+        // GET: /get-data/:ip_address
         mainRouter.route(HttpMethod.GET, "/get-data/:ip_address").handler(ctx -> {
             LOGGER.info(REQ_CONTAINER, ctx.request().method(), ctx.request().path(), ctx.request().remoteAddress());
 
@@ -246,6 +253,7 @@ public class Server extends AbstractVerticle
             });
         });
 
+        // GET: /get-ip-address
         mainRouter.route(HttpMethod.GET, "/get-ip-address").handler(ctx -> {
             LOGGER.info(REQ_CONTAINER, ctx.request().method(), ctx.request().path(), ctx.request().remoteAddress());
 

@@ -45,4 +45,6 @@ public class Constants
     public static String USED_MEMORY = "used_memory";
 
     public static String USED_SWAP_MEMORY = "used_swap_memory";
+
+    public static String PROVISION_DEVICES_JSON_FILE_PATH = "./provision_devices.json";
 }
