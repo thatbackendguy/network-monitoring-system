@@ -7,6 +7,7 @@ import { toast, Toaster } from "react-hot-toast";
 import { Select, Modal, Input, Tooltip, Badge } from "antd";
 import { ChartComponent } from "./components/ChartComponent.jsx";
 import { FaBell } from "react-icons/fa";
+// import AlertModal from "./components/AlertModal.jsx";
 
 function App() {
   const [data, setData] = useState();
@@ -19,6 +20,46 @@ function App() {
     password: "",
     deviceType: "",
   });
+  // const [alertModal, setAlertModal] = useState()
+  // const [alerts, setAlerts] = useState()
+
+  const getAlerts = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/get-alerts/${selectedIpAddress}`
+      );
+
+      console.log(response.data);
+
+      // if (response.data["status"] === "success") {
+      //   setAlerts(response.data);
+      // } else {
+      //   setComments([]);
+      // }
+    } catch (error) {
+      console.log(error);
+      // setComments([]);
+    }
+
+  };
+
+  const clearAlerts = async () => {
+    try {
+      const response = await axios.delete(
+         `http://localhost:8080/clear-alerts/${selectedIpAddress}`
+      );
+
+      if (response.data.status === "success") {
+        // console.log(response.data)
+        toast.success(response.data.message);
+        getAlerts();
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleChange = (value) => {
     setSelectedIpAddress(value);
@@ -366,6 +407,13 @@ function App() {
           />
         </div>
       </Modal>
+
+      {/* <AlertModal
+      visible={alertModal}
+      setVisible={setAlertModal}
+      alerts={alerts}
+      clearAlerts={clearAlerts}
+      /> */}
 
       <footer className="text-white text-center mt-6 py-4">
         <a target="_blank" href="https://www.github.com/thatbackendguy">

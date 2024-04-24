@@ -38,6 +38,8 @@ public class Constants
 
     public static final String POLL_TIMESTAMP = "poll.timestamp";
 
+    public static final String TIMESTAMP = "timestamp";
+
     public static final String TOTAL_MEMORY = "total.memory";
 
     public static final String TOTAL_SWAP_MEMORY = "total.swap.memory";

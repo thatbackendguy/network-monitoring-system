@@ -33,6 +33,24 @@ public class Server extends AbstractVerticle
 
     private static JsonObject timerIDs = new JsonObject();
 
+    private void storeAlerts(String ipAddress, String message)
+    {
+        String alertInsert = "INSERT INTO `alerts` (`ip.address`,`message`) VALUES (?,?)";
+
+        try(var conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(alertInsert);)
+        {
+            stmt.setString(1, ipAddress);
+            stmt.setString(2, message);
+
+            int rowsInserted = stmt.executeUpdate();
+
+            LOGGER.info("{} alert generated for {}", rowsInserted, ipAddress);
+        } catch(SQLException e)
+        {
+            LOGGER.error(e.getMessage());
+        }
+    }
+
     private void storeMetricsToDB(ArrayList<String> output, JsonObject deviceJson)
     {
         try
@@ -45,6 +63,16 @@ public class Server extends AbstractVerticle
 
             if(cpuValues.length == 3 && memoryValues.length == 3 && swapMemoryValues.length == 3)
             {
+                if(Float.parseFloat(cpuValues[0]) > 80) // User cpu % threshold: 80%
+                {
+                    storeAlerts(deviceJson.getString(IP_ADDRESS), String.format("CPU usage is critical: %s", cpuValues[0]));
+                }
+
+                if(Float.parseFloat(memoryValues[2]) > 12582) // Memory Threshold: around 80%
+                {
+                    storeAlerts(deviceJson.getString(IP_ADDRESS), String.format("Memory usage is critical: %s", memoryValues[2]));
+                }
+
                 String sql = "INSERT INTO `system_metrics` (`context.switches`, `free.memory`,`free.swap.memory`,`ip.address`,`load.average`,`idle.cpu.percentage`,`system.cpu.percentage`,`user.cpu.percentage`,`total.memory`,`total.swap.memory`,`used.memory`,`used.swap.memory`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
 
                 try(var conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);)
@@ -87,7 +115,7 @@ public class Server extends AbstractVerticle
 
         Router mainRouter = Router.router(vertx);
 
-        mainRouter.route().handler(CorsHandler.create().addOrigin("*").allowedMethod(HttpMethod.GET).allowedMethod(HttpMethod.POST));
+        mainRouter.route().handler(CorsHandler.create().addOrigin("*").allowedMethod(HttpMethod.GET).allowedMethod(HttpMethod.POST).allowedMethod(HttpMethod.DELETE));
 
         // for handling failures
         mainRouter.route().failureHandler(errorHandler());
@@ -333,6 +361,69 @@ public class Server extends AbstractVerticle
                 ctx.json(res.result());
                 LOGGER.info("Response sent successfully!");
             });
+        });
+
+        // GET: /get-alerts/:ip
+        mainRouter.route(HttpMethod.GET, "/get-alerts/:ip").handler(ctx -> {
+            LOGGER.info(REQ_CONTAINER, ctx.request().method(), ctx.request().path(), ctx.request().remoteAddress());
+
+            var response = new JsonObject();
+
+            var messages = new JsonArray();
+
+            var timestamp = new JsonArray();
+
+            var ipAddress = ctx.request().getParam("ip");
+
+            vertx.executeBlocking(() -> {
+                try(Connection conn = DatabaseConnection.getConnection();)
+                {
+                    LOGGER.info("Fetching alerts from DB for: {}", ipAddress);
+
+                    PreparedStatement stmt = conn.prepareStatement("SELECT `message`,`timestamp` FROM alerts WHERE `ip.address`=?");
+
+                    stmt.setString(1, ipAddress);
+
+                    ResultSet rs = stmt.executeQuery();
+
+                    while(rs.next())
+                    {
+                        messages.add(rs.getString(MESSAGE));
+                        timestamp.add(rs.getString(TIMESTAMP));
+                    }
+
+                    response.put(STATUS,SUCCESS).put(IP_ADDRESS, ipAddress).put(MESSAGE, messages).put(TIMESTAMP, timestamp);
+                } catch(SQLException e)
+                {
+                    LOGGER.error(e.getMessage());
+                }
+
+                return response;
+            }).onComplete(res -> {
+                ctx.json(res.result());
+                LOGGER.info("Response sent successfully!");
+            });
+        });
+
+        // DELETE: /clear-alerts/:ip
+        mainRouter.route(HttpMethod.DELETE, "/clear-alerts/:ip").handler(ctx -> {
+            LOGGER.info(REQ_CONTAINER, ctx.request().method(), ctx.request().path(), ctx.request().remoteAddress());
+
+            var ipAddress = ctx.request().getParam("ip");
+
+            var deleteQuery = "DELETE FROM alerts WHERE `ip.address`=?";
+
+            try(Connection conn = DatabaseConnection.getConnection();PreparedStatement stmt = conn.prepareStatement(deleteQuery))
+            {
+                var rowsAffected = stmt.executeUpdate();
+
+                LOGGER.info("{} alerts cleared for {}", rowsAffected, ipAddress);
+            }
+            catch(SQLException e)
+            {
+                LOGGER.error(e.getMessage());
+            }
+            ctx.json(new JsonObject().put(STATUS, SUCCESS).put(MESSAGE,"Alerts cleared successfully!"));
         });
 
         server.requestHandler(mainRouter).listen(8080, res -> {

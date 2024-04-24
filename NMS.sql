@@ -6,7 +6,7 @@ USE nmsDB;
 
 # create table queries
 # SYSTEM_METRICS
-CREATE TABLE `system_metrics`
+CREATE TABLE `nmsDB`.`system_metrics`
 (
     `context.switches`      varchar(255)          DEFAULT NULL,
     `free.memory`           varchar(255)          DEFAULT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE `system_metrics`
 );
 
 # ALERTS
-CREATE TABLE `alerts`
+CREATE TABLE `nmsDB`.`alerts`
 (
     `ip.address`      varchar(255)          DEFAULT NULL,
     `message`           varchar(255)          DEFAULT NULL,

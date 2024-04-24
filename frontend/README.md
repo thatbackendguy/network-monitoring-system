@@ -40,8 +40,8 @@ The Network Monitoring System is a robust application designed to monitor and vi
     {
         "username": "yash",
         "password": 1234,
-        "ip_address": "127.0.0.1",
-        "device_type": "linux"
+        "ip.address": "127.0.0.1",
+        "device.type": "linux"
     }
     ```
 > Change values according your system configuration. To check IP address, run this following command:
