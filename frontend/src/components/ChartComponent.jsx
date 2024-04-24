@@ -18,7 +18,7 @@ export const ChartComponent = ({chartData,title}) => {
           background: '#272637',
         },
         xaxis: {
-          type: 'datetime',
+          // type: 'datetime',
           ...chartData.options.xaxis,
           labels: {
             ...chartData.options.xaxis.labels,

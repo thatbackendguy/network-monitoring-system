@@ -19,8 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.TimeUnit;
 
 import static com.nms.Bootstrap.*;
 import static com.nms.utils.Constants.*;
@@ -32,43 +31,52 @@ public class Server extends AbstractVerticle
         return ErrorHandler.create(vertx);
     }
 
-    private void storeToDB(ArrayList<String> output, JsonObject deviceJson)
+    private static JsonObject timerIDs = new JsonObject();
+
+    private void storeMetricsToDB(ArrayList<String> output, JsonObject deviceJson)
     {
-        var cpuValues = output.get(1).split(" ");
-
-        var memoryValues = output.get(3).split(" ");
-
-        var swapMemoryValues = output.get(4).split(" ");
-
-        if(cpuValues.length == 3 && memoryValues.length == 3 && swapMemoryValues.length == 3)
+        try
         {
-            String sql = "INSERT INTO system_metrics (context_switches, free_memory, free_swap_memory, ip_address, load_average, idle_cpu_percentage, system_cpu_percentage, user_cpu_percentage, total_memory, total_swap_memory, used_memory, used_swap_memory) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            var cpuValues = output.get(1).split(" ");
 
-            try(var conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);)
+            var memoryValues = output.get(3).split(" ");
+
+            var swapMemoryValues = output.get(4).split(" ");
+
+            if(cpuValues.length == 3 && memoryValues.length == 3 && swapMemoryValues.length == 3)
             {
-                // Set the values for the placeholders
-                stmt.setString(1, output.get(0)); // context-switches
-                stmt.setString(2, memoryValues[1]); // free-memory
-                stmt.setString(3, swapMemoryValues[1]); // free-swap-memory
-                stmt.setString(4, deviceJson.getString(IP_ADDRESS)); // ip-address
-                stmt.setString(5, output.get(2)); // load_avg
-                stmt.setString(6, cpuValues[2]); // idle-cpu
-                stmt.setString(7, cpuValues[1]); // sys-cpu
-                stmt.setString(8, cpuValues[0]); // user-cpu
-                stmt.setString(9, memoryValues[0]); // total-memory
-                stmt.setString(10, swapMemoryValues[0]); // total-swap-memory
-                stmt.setString(11, memoryValues[2]); // used-memory
-                stmt.setString(12, swapMemoryValues[2]); // used-swap-memory
+                String sql = "INSERT INTO `system_metrics` (`context.switches`, `free.memory`,`free.swap.memory`,`ip.address`,`load.average`,`idle.cpu.percentage`,`system.cpu.percentage`,`user.cpu.percentage`,`total.memory`,`total.swap.memory`,`used.memory`,`used.swap.memory`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
 
-                // Execute the statement
-                int rowsInserted = stmt.executeUpdate();
+                try(var conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql);)
+                {
+                    // Set the values for the placeholders
+                    stmt.setString(1, output.get(0)); // context-switches
+                    stmt.setString(2, memoryValues[1]); // free-memory
+                    stmt.setString(3, swapMemoryValues[1]); // free-swap-memory
+                    stmt.setString(4, deviceJson.getString(IP_ADDRESS)); // ip-address
+                    stmt.setString(5, output.get(2)); // load_avg
+                    stmt.setString(6, cpuValues[2]); // idle-cpu
+                    stmt.setString(7, cpuValues[1]); // sys-cpu
+                    stmt.setString(8, cpuValues[0]); // user-cpu
+                    stmt.setString(9, memoryValues[0]); // total-memory
+                    stmt.setString(10, swapMemoryValues[0]); // total-swap-memory
+                    stmt.setString(11, memoryValues[2]); // used-memory
+                    stmt.setString(12, swapMemoryValues[2]); // used-swap-memory
 
-                LOGGER.info("{} rows inserted for {}", rowsInserted, deviceJson.getString(IP_ADDRESS));
-            } catch(SQLException e)
-            {
-                LOGGER.error(e.getMessage());
+                    // Execute the statement
+                    int rowsInserted = stmt.executeUpdate();
+
+                    LOGGER.info("{} rows inserted for {}", rowsInserted, deviceJson.getString(IP_ADDRESS));
+                } catch(SQLException e)
+                {
+                    LOGGER.error(e.getMessage());
+                }
             }
+        } catch(ArrayIndexOutOfBoundsException aiobe)
+        {
+            LOGGER.error(aiobe.getMessage());
         }
+
     }
 
 
@@ -103,7 +111,7 @@ public class Server extends AbstractVerticle
 
                 Buffer updatedBuffer = Buffer.buffer(PROVISION_DEVICES_LIST.toString());
 
-                vertx.fileSystem().writeFile("/home/yash/IdeaProjects/network-monitoring-system/provision_devices.json", updatedBuffer, writeResult -> {
+                vertx.fileSystem().writeFile(PROVISION_DEVICES_JSON_FILE_PATH, updatedBuffer, writeResult -> {
                     if(writeResult.succeeded())
                     {
                         LOGGER.info("File updated successfully");
@@ -122,15 +130,37 @@ public class Server extends AbstractVerticle
 
         // GET: /start-polling
         mainRouter.route(HttpMethod.GET, "/start-polling").handler(ctx -> {
+
             LOGGER.info(REQ_CONTAINER, ctx.request().method(), ctx.request().path(), ctx.request().remoteAddress());
+
+            //            if(!timerIDs.isEmpty())
+            //            {
+            //                for(Object timerID: timerIDs)
+            //                {
+            ////                    vertx.cancelTimer((Long)timerID);
+            ////
+            ////                    LOGGER.info("Timer ID cleared: {}", timerID);
+            //                    System.out.println(timerID);
+            //                }
+            //            }
 
             int totalNoDevices = PROVISION_DEVICES_LIST.size();
 
             for(Object device : PROVISION_DEVICES_LIST)
             {
+
+                if(!timerIDs.isEmpty())
+                {
+                    timerIDs.stream().forEach(timerID -> vertx.cancelTimer((Long) timerID.getValue()));
+
+                    LOGGER.info("Cancelling all timers");
+                }
+
                 JsonObject deviceJson = (JsonObject) device;
 
                 vertx.setPeriodic(10000, timerID -> {
+
+                    timerIDs.put(deviceJson.getString(IP_ADDRESS), timerID);
 
                     vertx.executeBlocking(f -> {
                         LOGGER.info("Polling for {}", deviceJson.getString(IP_ADDRESS));
@@ -148,34 +178,51 @@ public class Server extends AbstractVerticle
 
                             var process = processBuilder.start();
 
-                            var reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                            boolean isCompleted = process.waitFor(5, TimeUnit.SECONDS); // Wait for 5 seconds
 
-                            String line;
-
-                            while((line = reader.readLine()) != null)
+                            if(!isCompleted)
                             {
-                                if(!line.contains("refused"))
-                                {
-                                    polledBuffer.add(line);
-                                }
-                                else
-                                {
-                                    LOGGER.info("Device down: {}", deviceJson.getString(IP_ADDRESS));
-                                }
-                            }
+                                LOGGER.info("Device timed out: {}", deviceJson.getString(IP_ADDRESS));
 
-                            var exitCode = process.waitFor();
+                                process.destroyForcibly();
 
-                            if(!polledBuffer.isEmpty() && exitCode == 0)
-                            {
-                                storeToDB(polledBuffer, deviceJson);
+                                f.complete("Device timed out: " + deviceJson.getString(IP_ADDRESS));
+
+                                return;
                             }
                             else
                             {
-                                LOGGER.info("Device down: {}", deviceJson.getString(IP_ADDRESS));
+                                var reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+                                String line;
+
+                                while((line = reader.readLine()) != null)
+                                {
+                                    if(!line.contains("refused") && !line.contains("No route") && !line.contains("Connection timed out"))
+                                    {
+                                        polledBuffer.add(line);
+                                    }
+                                    else
+                                    {
+                                        LOGGER.info("SSH Port not accessible: {}", deviceJson.getString(IP_ADDRESS));
+
+                                        f.complete("Poll failed for: " + deviceJson.getString(IP_ADDRESS));
+
+                                        return;
+                                    }
+                                }
+
+
+                                if(!polledBuffer.isEmpty())
+                                {
+                                    storeMetricsToDB(polledBuffer, deviceJson);
+
+                                    f.complete("Poll complete for: " + deviceJson.getString(IP_ADDRESS));
+                                }
+
                             }
 
-                            f.complete("Poll complete for: " + deviceJson.getString(IP_ADDRESS));
+
                         } catch(Exception e)
                         {
                             LOGGER.error(e.getMessage());
@@ -192,7 +239,7 @@ public class Server extends AbstractVerticle
         });
 
         // GET: /get-data/:ip_address
-        mainRouter.route(HttpMethod.GET, "/get-data/:ip_address").handler(ctx -> {
+        mainRouter.route(HttpMethod.GET, "/get-data/:ip").handler(ctx -> {
             LOGGER.info(REQ_CONTAINER, ctx.request().method(), ctx.request().path(), ctx.request().remoteAddress());
 
             var response = new JsonObject();
@@ -210,13 +257,13 @@ public class Server extends AbstractVerticle
             var usedMemory = new JsonArray();
             var usedSwapMemory = new JsonArray();
 
-            var ipAddress = ctx.request().getParam(IP_ADDRESS);
+            var ipAddress = ctx.request().getParam("ip");
             vertx.executeBlocking(() -> {
                 try(Connection conn = DatabaseConnection.getConnection();)
                 {
                     LOGGER.info("Fetching data from DB");
 
-                    String selectQuery = "SELECT * FROM (SELECT * FROM nmsDB.system_metrics WHERE ip_address=? ORDER BY poll_timestamp DESC LIMIT 60) AS latest_60 ORDER BY poll_timestamp ASC;";
+                    String selectQuery = "SELECT * FROM (SELECT * FROM nmsDB.system_metrics WHERE `ip.address`=? ORDER BY `poll.timestamp` DESC LIMIT 60) AS latest_60 ORDER BY `poll.timestamp` ASC;";
 
                     PreparedStatement stmt = conn.prepareStatement(selectQuery);
 
@@ -234,13 +281,13 @@ public class Server extends AbstractVerticle
                         systemPercentage.add(rs.getString(SYSTEM_CPU_PERCENTAGE));
                         userPercentage.add(rs.getString(USER_CPU_PERCENTAGE));
                         pollTimestamp.add(rs.getString(POLL_TIMESTAMP));
-                        totalMemory.add(rs.getString(TOTAL_MEMOEY));
+                        totalMemory.add(rs.getString(TOTAL_MEMORY));
                         totalSwapMemory.add(rs.getString(TOTAL_SWAP_MEMORY));
                         usedMemory.add(rs.getString(USED_MEMORY));
                         usedSwapMemory.add(rs.getString(USED_SWAP_MEMORY));
                     }
 
-                    response.put(IP_ADDRESS, ipAddress).put(CONTEXT_SWITCHES, contextSwitches).put(FREE_MEMORY, freeMemory).put(FREE_SWAP_MEMORY, freeSwapMemory).put(LOAD_AVERAGE, loadAvg).put(IDLE_CPU_PERCENTAGE, idlePercentage).put(SYSTEM_CPU_PERCENTAGE, systemPercentage).put(USER_CPU_PERCENTAGE, userPercentage).put(POLL_TIMESTAMP, pollTimestamp).put(TOTAL_MEMOEY, totalMemory).put(TOTAL_SWAP_MEMORY, totalSwapMemory).put(USED_MEMORY, usedMemory).put(USED_SWAP_MEMORY, usedSwapMemory);
+                    response.put(IP_ADDRESS, ipAddress).put(CONTEXT_SWITCHES, contextSwitches).put(FREE_MEMORY, freeMemory).put(FREE_SWAP_MEMORY, freeSwapMemory).put(LOAD_AVERAGE, loadAvg).put(IDLE_CPU_PERCENTAGE, idlePercentage).put(SYSTEM_CPU_PERCENTAGE, systemPercentage).put(USER_CPU_PERCENTAGE, userPercentage).put(POLL_TIMESTAMP, pollTimestamp).put(TOTAL_MEMORY, totalMemory).put(TOTAL_SWAP_MEMORY, totalSwapMemory).put(USED_MEMORY, usedMemory).put(USED_SWAP_MEMORY, usedSwapMemory);
                 } catch(SQLException e)
                 {
                     LOGGER.error(e.getMessage());
@@ -264,7 +311,7 @@ public class Server extends AbstractVerticle
             vertx.executeBlocking(() -> {
                 try(Connection conn = DatabaseConnection.getConnection();)
                 {
-                    String selectQuery = "SELECT distinct(ip_address) FROM system_metrics";
+                    String selectQuery = "SELECT distinct(`ip.address`) FROM system_metrics";
 
                     PreparedStatement stmt = conn.prepareStatement(selectQuery);
 

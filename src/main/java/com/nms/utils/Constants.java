@@ -4,47 +4,47 @@ public class Constants
 {
     private Constants() {}
 
-    public static String REQ_CONTAINER = "{} {} {}";
+    public static final String REQ_CONTAINER = "{} {} {}";
 
-    public static String STATUS = "status";
+    public static final String STATUS = "status";
 
-    public static String SUCCESS = "success";
+    public static final String SUCCESS = "success";
 
-    public static String ERROR = "error";
+    public static final String ERROR = "error";
 
-    public static String MESSAGE = "message";
+    public static final String MESSAGE = "message";
 
-    public static String IP_ADDRESS = "ip_address";
+    public static final String IP_ADDRESS = "ip.address";
 
-    public static String PASSWORD = "password";
+    public static final String PASSWORD = "password";
 
-    public static String USERNAME = "username";
+    public static final String USERNAME = "username";
 
-    public static String DEVICE_TYPE = "device_type";
+    public static final String DEVICE_TYPE = "device.type";
 
-    public static String CONTEXT_SWITCHES = "context_switches";
+    public static final String CONTEXT_SWITCHES = "context.switches";
 
-    public static String FREE_MEMORY = "free_memory";
+    public static final String FREE_MEMORY = "free.memory";
 
-    public static String FREE_SWAP_MEMORY = "free_swap_memory";
+    public static final String FREE_SWAP_MEMORY = "free.swap.memory";
 
-    public static String LOAD_AVERAGE = "load_average";
+    public static final String LOAD_AVERAGE = "load.average";
 
-    public static String IDLE_CPU_PERCENTAGE = "idle_cpu_percentage";
+    public static final String IDLE_CPU_PERCENTAGE = "idle.cpu.percentage";
 
-    public static String SYSTEM_CPU_PERCENTAGE = "system_cpu_percentage";
+    public static final String SYSTEM_CPU_PERCENTAGE = "system.cpu.percentage";
 
-    public static String USER_CPU_PERCENTAGE = "user_cpu_percentage";
+    public static final String USER_CPU_PERCENTAGE = "user.cpu.percentage";
 
-    public static String POLL_TIMESTAMP = "poll_timestamp";
+    public static final String POLL_TIMESTAMP = "poll.timestamp";
 
-    public static String TOTAL_MEMOEY = "total_memory";
+    public static final String TOTAL_MEMORY = "total.memory";
 
-    public static String TOTAL_SWAP_MEMORY = "total_swap_memory";
+    public static final String TOTAL_SWAP_MEMORY = "total.swap.memory";
 
-    public static String USED_MEMORY = "used_memory";
+    public static final String USED_MEMORY = "used.memory";
 
-    public static String USED_SWAP_MEMORY = "used_swap_memory";
+    public static final String USED_SWAP_MEMORY = "used.swap.memory";
 
-    public static String PROVISION_DEVICES_JSON_FILE_PATH = "./provision_devices.json";
+    public static final String PROVISION_DEVICES_JSON_FILE_PATH = "./provision_devices.json";
 }

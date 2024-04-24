@@ -42,7 +42,7 @@ function App() {
   const fetchIpAddress = async () => {
     try {
       const response = await axios.get(`http://localhost:8080/get-ip-address`);
-      setIpAddress(response.data.ip_address);
+      setIpAddress(response.data["ip.address"]);
     } catch (error) {
       console.log(error);
     }
@@ -79,10 +79,10 @@ function App() {
   const handleSubmit = async () => {
     try {
       const res = await axios.post(`http://localhost:8080/register-device`, {
-        username: formData.username.trim(),
-        password: formData.password.trim(),
-        ip_address: formData.ipAddress.trim(),
-        device_type: formData.deviceType.trim(),
+        "username": formData.username.trim(),
+        "password": formData.password.trim(),
+        "ip.address": formData.ipAddress.trim(),
+        "device.type": formData.deviceType.trim(),
       });
       if (res?.data?.status === "success") {
         toast.success(res?.data?.message);
@@ -125,21 +125,21 @@ function App() {
         id: "cpu-stats-chart",
       },
       xaxis: {
-        categories: data?.poll_timestamp,
+        categories: data && data['poll.timestamp'],
       },
     },
     series: [
       {
         name: "System CPU Percentage",
-        data: data?.system_cpu_percentage?.map(Number),
+        data: data && data["system.cpu.percentage"].map(Number) ,
       },
       {
         name: "User CPU Percentage",
-        data: data?.user_cpu_percentage?.map(Number),
+        data: data && data["user.cpu.percentage"].map(Number) ,
       },
       {
         name: "Idle CPU Percentage",
-        data: data?.idle_cpu_percentage?.map(Number),
+        data: data && data["idle.cpu.percentage"].map(Number) ,
       },
     ],
   };
@@ -150,21 +150,21 @@ function App() {
         id: "memory-stats-chart",
       },
       xaxis: {
-        categories: data?.poll_timestamp,
+        categories: data && data['poll.timestamp'],
       },
     },
     series: [
       {
         name: "Total Memory",
-        data: data?.total_memory?.map(Number),
+        data: data && data["total.memory"].map(Number) ,
       },
       {
         name: "Used Memory",
-        data: data?.used_memory?.map(Number),
+        data: data && data["used.memory"].map(Number) ,
       },
       {
         name: "Free Memory",
-        data: data?.free_memory?.map(Number),
+        data: data && data["free.memory"].map(Number) ,
       },
     ],
   };
@@ -175,21 +175,21 @@ function App() {
         id: "swap-memory-stats-chart",
       },
       xaxis: {
-        categories: data?.poll_timestamp,
+        categories: data && data['poll.timestamp'],
       },
     },
     series: [
       {
         name: "Total Swap Memory",
-        data: data?.total_swap_memory?.map(Number),
+        data: data && data["total.swap.memory"].map(Number) ,
       },
       {
         name: "Used Swap Memory",
-        data: data?.used_swap_memory?.map(Number),
+        data: data && data["used.swap.memory"].map(Number) ,
       },
       {
         name: "Free Swap Memory",
-        data: data?.free_swap_memory?.map(Number),
+        data: data &&  data["free.swap.memory"].map(Number) ,
       },
     ],
   };
@@ -200,16 +200,17 @@ function App() {
         id: "context-switches-chart",
       },
       xaxis: {
-        categories: data?.poll_timestamp,
+        categories: data && data['poll.timestamp'],
       },
     },
     series: [
       {
         name: "Context Switches",
-        data: data?.context_switches?.map(Number),
+        data: data && data["context.switches"].map(Number) ,
       },
     ],
   };
+
 
   return (
     <div className="app">
@@ -217,10 +218,7 @@ function App() {
 
       <div className="z-10 fixed bottom-6 right-6">
         <div>
-          <Badge
-            count={7}
-            className="mb-[-40px]"
-          />
+          <Badge count={7} className="mb-[-40px]" />
         </div>
 
         <div className="py-4 hover:cursor-pointer px-4 rounded-full bg-white text-red-500 hover:text-red-600">

@@ -8,20 +8,26 @@ USE nmsDB;
 # SYSTEM_METRICS
 CREATE TABLE `system_metrics`
 (
-    `context_switches`      varchar(255)          DEFAULT NULL,
-    `free_memory`           varchar(255)          DEFAULT NULL,
-    `free_swap_memory`      varchar(255)          DEFAULT NULL,
-    `ip_address`            varchar(255) NOT NULL,
-    `load_average`          varchar(255)          DEFAULT NULL,
-    `idle_cpu_percentage`   varchar(255)          DEFAULT NULL,
-    `system_cpu_percentage` varchar(255)          DEFAULT NULL,
-    `user_cpu_percentage`   varchar(255)          DEFAULT NULL,
-    `poll_timestamp`        timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `total_memory`          varchar(255)          DEFAULT NULL,
-    `total_swap_memory`     varchar(255)          DEFAULT NULL,
-    `used_memory`           varchar(255)          DEFAULT NULL,
-    `used_swap_memory`      varchar(255)          DEFAULT NULL
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+    `context.switches`      varchar(255)          DEFAULT NULL,
+    `free.memory`           varchar(255)          DEFAULT NULL,
+    `free.swap.memory`      varchar(255)          DEFAULT NULL,
+    `ip.address`            varchar(255) NOT NULL,
+    `load.average`          varchar(255)          DEFAULT NULL,
+    `idle.cpu.percentage`   varchar(255)          DEFAULT NULL,
+    `system.cpu.percentage` varchar(255)          DEFAULT NULL,
+    `user.cpu.percentage`   varchar(255)          DEFAULT NULL,
+    `poll.timestamp`        timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `total.memory`          varchar(255)          DEFAULT NULL,
+    `total.swap.memory`     varchar(255)          DEFAULT NULL,
+    `used.memory`           varchar(255)          DEFAULT NULL,
+    `used.swap.memory`      varchar(255)          DEFAULT NULL
+);
+
+# ALERTS
+CREATE TABLE `alerts`
+(
+    `ip.address`      varchar(255)          DEFAULT NULL,
+    `message`           varchar(255)          DEFAULT NULL,
+    `timestamp`        timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
 
