@@ -256,7 +256,7 @@ public class Server extends AbstractVerticle
                             LOGGER.error(e.getMessage());
                         }
 
-                    }, res -> LOGGER.info(res.result().toString()));
+                    }, false, res -> LOGGER.info(res.result().toString()));
                 });
 
             }
