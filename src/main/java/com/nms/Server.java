@@ -226,7 +226,7 @@ public class Server extends AbstractVerticle
 
                                 while((line = reader.readLine()) != null)
                                 {
-                                    if(!line.contains("refused") && !line.contains("No route") && !line.contains("Connection timed out"))
+                                    if(!line.contains("refused") && !line.contains("No route") && !line.contains("Connection timed out") && !line.contains("Permission denied"))
                                     {
                                         polledBuffer.add(line);
                                     }
