@@ -266,8 +266,8 @@ public class Server extends AbstractVerticle
 
         });
 
-        // GET: /get-data/:ip_address
-        mainRouter.route(HttpMethod.GET, "/get-data/:ip").handler(ctx -> {
+        // GET: /get-data/:ipAddress
+        mainRouter.route(HttpMethod.GET, "/get-data/:ipAddress").handler(ctx -> {
             LOGGER.info(REQ_CONTAINER, ctx.request().method(), ctx.request().path(), ctx.request().remoteAddress());
 
             var response = new JsonObject();
@@ -285,7 +285,7 @@ public class Server extends AbstractVerticle
             var usedMemory = new JsonArray();
             var usedSwapMemory = new JsonArray();
 
-            var ipAddress = ctx.request().getParam("ip");
+            var ipAddress = ctx.request().getParam("ipAddress");
             vertx.executeBlocking(() -> {
                 try(Connection conn = DatabaseConnection.getConnection();)
                 {
@@ -363,17 +363,15 @@ public class Server extends AbstractVerticle
             });
         });
 
-        // GET: /get-alerts/:ip
-        mainRouter.route(HttpMethod.GET, "/get-alerts/:ip").handler(ctx -> {
+        // GET: /get-alerts/:ipAddress
+        mainRouter.route(HttpMethod.GET, "/get-alerts/:ipAddress").handler(ctx -> {
             LOGGER.info(REQ_CONTAINER, ctx.request().method(), ctx.request().path(), ctx.request().remoteAddress());
 
             var response = new JsonObject();
 
-            var messages = new JsonArray();
+            var data = new JsonArray();
 
-            var timestamp = new JsonArray();
-
-            var ipAddress = ctx.request().getParam("ip");
+            var ipAddress = ctx.request().getParam("ipAddress");
 
             vertx.executeBlocking(() -> {
                 try(Connection conn = DatabaseConnection.getConnection();)
@@ -388,11 +386,10 @@ public class Server extends AbstractVerticle
 
                     while(rs.next())
                     {
-                        messages.add(rs.getString(MESSAGE));
-                        timestamp.add(rs.getString(TIMESTAMP));
+                        data.add(new JsonObject().put(MESSAGE, rs.getString(1)).put(TIMESTAMP, rs.getTimestamp(2).toString()));
                     }
 
-                    response.put(STATUS,SUCCESS).put(IP_ADDRESS, ipAddress).put(MESSAGE, messages).put(TIMESTAMP, timestamp);
+                    response.put(STATUS,SUCCESS).put("data", data);
                 } catch(SQLException e)
                 {
                     LOGGER.error(e.getMessage());
@@ -406,24 +403,38 @@ public class Server extends AbstractVerticle
         });
 
         // DELETE: /clear-alerts/:ip
-        mainRouter.route(HttpMethod.DELETE, "/clear-alerts/:ip").handler(ctx -> {
+        mainRouter.route(HttpMethod.DELETE, "/clear-alerts/:ipAddress").handler(ctx -> {
             LOGGER.info(REQ_CONTAINER, ctx.request().method(), ctx.request().path(), ctx.request().remoteAddress());
 
-            var ipAddress = ctx.request().getParam("ip");
+            var response = new JsonObject();
 
-            var deleteQuery = "DELETE FROM alerts WHERE `ip.address`=?";
+            var ipAddress = ctx.request().getParam("ipAddress");
 
-            try(Connection conn = DatabaseConnection.getConnection();PreparedStatement stmt = conn.prepareStatement(deleteQuery))
-            {
-                var rowsAffected = stmt.executeUpdate();
+            vertx.executeBlocking(()-> {
+                var deleteQuery = "DELETE FROM alerts WHERE `ip.address`=?";
 
-                LOGGER.info("{} alerts cleared for {}", rowsAffected, ipAddress);
-            }
-            catch(SQLException e)
-            {
-                LOGGER.error(e.getMessage());
-            }
-            ctx.json(new JsonObject().put(STATUS, SUCCESS).put(MESSAGE,"Alerts cleared successfully!"));
+                try(Connection conn = DatabaseConnection.getConnection();PreparedStatement stmt = conn.prepareStatement(deleteQuery))
+                {
+                    stmt.setString(1, ipAddress);
+
+                    var rowsAffected = stmt.executeUpdate();
+
+                    LOGGER.info("{} alerts cleared for {}", rowsAffected, ipAddress);
+
+                }
+                catch(SQLException e)
+                {
+                    LOGGER.error(e.getMessage());
+                }
+                response.put(STATUS, SUCCESS).put(MESSAGE,"Alerts cleared successfully!");
+
+                return response;
+            }, false, res->{
+                if(res.succeeded())
+                {
+                    ctx.json(res.result());
+                }
+            });
         });
 
         server.requestHandler(mainRouter).listen(8080, res -> {

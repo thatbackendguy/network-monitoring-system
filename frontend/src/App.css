@@ -27,5 +27,25 @@
 
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background: #36344d;
+    background: none;
   }
+
+
+  .alert-modal::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* Track */
+.alert-modal::-webkit-scrollbar-track {
+  background: none;
+}
+
+/* Handle */
+.alert-modal::-webkit-scrollbar-thumb {
+  background: none;
+}
+
+/* Handle on hover */
+.alert-modal::-webkit-scrollbar-thumb:hover {
+  background: none;
+}

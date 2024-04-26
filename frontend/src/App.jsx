@@ -7,7 +7,7 @@ import { toast, Toaster } from "react-hot-toast";
 import { Select, Modal, Input, Tooltip, Badge } from "antd";
 import { ChartComponent } from "./components/ChartComponent.jsx";
 import { FaBell } from "react-icons/fa";
-// import AlertModal from "./components/AlertModal.jsx";
+import AlertModal from "./components/AlertModal.jsx";
 
 function App() {
   const [data, setData] = useState();
@@ -20,8 +20,8 @@ function App() {
     password: "",
     deviceType: "",
   });
-  // const [alertModal, setAlertModal] = useState()
-  // const [alerts, setAlerts] = useState()
+  const [alertModal, setAlertModal] = useState(false);
+  const [alerts, setAlerts] = useState();
 
   const getAlerts = async () => {
     try {
@@ -29,33 +29,46 @@ function App() {
         `http://localhost:8080/get-alerts/${selectedIpAddress}`
       );
 
-      console.log(response.data);
+      if (response.data["status"] === "success") {
+        setAlerts(response?.data?.data);
 
-      // if (response.data["status"] === "success") {
-      //   setAlerts(response.data);
-      // } else {
-      //   setComments([]);
-      // }
+        if (
+          response?.data?.data?.length > localStorage.getItem("alert_count")
+        ) {
+          toast("You have new alert!", {
+            position: "top-right",
+            icon: "🔔",
+            style: {
+              borderRadius: "10px",
+              background: "#ef4444",
+              color: "white",
+            },
+          });
+          localStorage.setItem("alert_count", response?.data?.data?.length);
+        }
+      } else {
+        setAlerts([]);
+      }
     } catch (error) {
       console.log(error);
-      // setComments([]);
+      setAlerts([]);
     }
-
   };
 
   const clearAlerts = async () => {
     try {
       const response = await axios.delete(
-         `http://localhost:8080/clear-alerts/${selectedIpAddress}`
+        `http://localhost:8080/clear-alerts/${selectedIpAddress}`
       );
-
-      if (response.data.status === "success") {
+      localStorage.setItem("alert_count", 0);
+      if (response.data["status"] === "success") {
         // console.log(response.data)
-        toast.success(response.data.message);
-        getAlerts();
+        toast.success(response?.data?.message);
       } else {
-        toast.error(response.data.message);
+        toast.error(response?.data?.message);
       }
+      setAlerts([]);
+      setAlertModal(false);
     } catch (error) {
       console.log(error);
     }
@@ -120,8 +133,8 @@ function App() {
   const handleSubmit = async () => {
     try {
       const res = await axios.post(`http://localhost:8080/register-device`, {
-        "username": formData.username.trim(),
-        "password": formData.password.trim(),
+        username: formData.username.trim(),
+        password: formData.password.trim(),
         "ip.address": formData.ipAddress.trim(),
         "device.type": formData.deviceType.trim(),
       });
@@ -146,9 +159,11 @@ function App() {
 
   useEffect(() => {
     fetchData();
+    getAlerts();
 
     const fetchDataInterval = setInterval(() => {
       fetchData();
+      getAlerts();
     }, 10000);
 
     return () => {
@@ -166,21 +181,21 @@ function App() {
         id: "cpu-stats-chart",
       },
       xaxis: {
-        categories: data && data['poll.timestamp'],
+        categories: data && data["poll.timestamp"],
       },
     },
     series: [
       {
         name: "System CPU Percentage",
-        data: data && data["system.cpu.percentage"].map(Number) ,
+        data: data && data["system.cpu.percentage"].map(Number),
       },
       {
         name: "User CPU Percentage",
-        data: data && data["user.cpu.percentage"].map(Number) ,
+        data: data && data["user.cpu.percentage"].map(Number),
       },
       {
         name: "Idle CPU Percentage",
-        data: data && data["idle.cpu.percentage"].map(Number) ,
+        data: data && data["idle.cpu.percentage"].map(Number),
       },
     ],
   };
@@ -191,21 +206,21 @@ function App() {
         id: "memory-stats-chart",
       },
       xaxis: {
-        categories: data && data['poll.timestamp'],
+        categories: data && data["poll.timestamp"],
       },
     },
     series: [
       {
         name: "Total Memory",
-        data: data && data["total.memory"].map(Number) ,
+        data: data && data["total.memory"].map(Number),
       },
       {
         name: "Used Memory",
-        data: data && data["used.memory"].map(Number) ,
+        data: data && data["used.memory"].map(Number),
       },
       {
         name: "Free Memory",
-        data: data && data["free.memory"].map(Number) ,
+        data: data && data["free.memory"].map(Number),
       },
     ],
   };
@@ -216,21 +231,21 @@ function App() {
         id: "swap-memory-stats-chart",
       },
       xaxis: {
-        categories: data && data['poll.timestamp'],
+        categories: data && data["poll.timestamp"],
       },
     },
     series: [
       {
         name: "Total Swap Memory",
-        data: data && data["total.swap.memory"].map(Number) ,
+        data: data && data["total.swap.memory"].map(Number),
       },
       {
         name: "Used Swap Memory",
-        data: data && data["used.swap.memory"].map(Number) ,
+        data: data && data["used.swap.memory"].map(Number),
       },
       {
         name: "Free Swap Memory",
-        data: data &&  data["free.swap.memory"].map(Number) ,
+        data: data && data["free.swap.memory"].map(Number),
       },
     ],
   };
@@ -241,28 +256,37 @@ function App() {
         id: "context-switches-chart",
       },
       xaxis: {
-        categories: data && data['poll.timestamp'],
+        categories: data && data["poll.timestamp"],
       },
     },
     series: [
       {
         name: "Context Switches",
-        data: data && data["context.switches"].map(Number) ,
+        data: data && data["context.switches"].map(Number),
       },
     ],
   };
-
 
   return (
     <div className="app">
       <Toaster />
 
-      <div className="z-10 fixed bottom-6 right-6">
+      <div
+        onClick={() => {
+          alerts?.length > 0 && setAlertModal(!alertModal);
+        }}
+        className=" z-10 fixed bottom-6 right-6"
+      >
         <div>
-          <Badge count={7} className="mb-[-40px]" />
+          <Badge count={alerts?.length} className="mb-[-40px]  " />
         </div>
-
-        <div className="py-4 hover:cursor-pointer px-4 rounded-full bg-white text-red-500 hover:text-red-600">
+        <div
+          className={` ${
+            alerts?.length === 0
+              ? "hover:cursor-not-allowed"
+              : "hover:cursor-pointer"
+          } py-4  px-4 rounded-full bg-white text-red-500 hover:text-red-600`}
+        >
           <FaBell className="text-2xl" />
         </div>
       </div>
@@ -408,12 +432,12 @@ function App() {
         </div>
       </Modal>
 
-      {/* <AlertModal
-      visible={alertModal}
-      setVisible={setAlertModal}
-      alerts={alerts}
-      clearAlerts={clearAlerts}
-      /> */}
+      <AlertModal
+        visible={alertModal}
+        setVisible={setAlertModal}
+        alerts={alerts}
+        clearAlerts={clearAlerts}
+      />
 
       <footer className="text-white text-center mt-6 py-4">
         <a target="_blank" href="https://www.github.com/thatbackendguy">
