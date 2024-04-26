@@ -36,7 +36,7 @@ public class Bootstrap
             }
         });
 
-        vertx.deployVerticle("com.nms.Server",new DeploymentOptions().setThreadingModel(ThreadingModel.WORKER).setWorkerPoolName("server-worker-pool"), handler -> {
+        vertx.deployVerticle("com.nms.Server", handler -> {
             if(handler.succeeded())
             {
                 LOGGER.info("Server verticle deployed");
