@@ -3,7 +3,7 @@
 The Network Monitoring System is a robust application designed to monitor and visualize real-time system metrics for network devices. Utilizing a modern tech stack, it offers efficient backend processing, dynamic frontend interaction, and seamless database management.
 
 ## Demonstration
-<iframe width="560" height="315" src="https://www.youtube.com/embed/YOM6VJnKgvc?si=iU8k1en_UZhdSkLz" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+https://youtu.be/YOM6VJnKgvc?si=Pq1nZB8SswaAqyoS
 
 ## Technologies Used
 ### Backend
