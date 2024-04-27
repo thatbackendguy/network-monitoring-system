@@ -402,7 +402,7 @@ public class Server extends AbstractVerticle
             });
         });
 
-        // DELETE: /clear-alerts/:ip
+        // DELETE: /clear-alerts/:ipAddress
         mainRouter.route(HttpMethod.DELETE, "/clear-alerts/:ipAddress").handler(ctx -> {
             LOGGER.info(REQ_CONTAINER, ctx.request().method(), ctx.request().path(), ctx.request().remoteAddress());
 
