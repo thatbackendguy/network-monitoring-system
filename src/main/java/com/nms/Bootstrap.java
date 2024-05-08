@@ -16,12 +16,12 @@ public class Bootstrap
 
     public static void main(String[] args)
     {
-        Vertx vertx = Vertx.vertx();
+        var vertx = Vertx.vertx();
 
         vertx.fileSystem().readFile(PROVISION_DEVICES_JSON_FILE_PATH, readResult -> {
             if(readResult.succeeded())
             {
-                Buffer buffer = readResult.result();
+                var buffer = readResult.result();
 
                 PROVISION_DEVICES_LIST = buffer.toJsonArray();
 
